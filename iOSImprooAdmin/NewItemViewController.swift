@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  NewItemViewController.swift
 //  iOSImprooAdmin
 //
 //  Created by Zakhar Garan on 24.10.17.
@@ -10,6 +10,8 @@ import UIKit
 
 class NewItemViewController: UIViewController {
     
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var sectionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var titlField: UITextField!
     @IBOutlet weak var authorField: UITextField!
@@ -19,7 +21,8 @@ class NewItemViewController: UIViewController {
     @IBOutlet weak var categoriesTableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var menuTabBar: UITabBar!
-
+    
+    //MARK: - Properties
     
     var selectedSection: Section = .Activities
     var sectionCategories = [String]() {
@@ -29,6 +32,14 @@ class NewItemViewController: UIViewController {
             }
         }
     }
+    
+    var newItem = Item(section: Section.Activities) {
+        didSet {
+            checkSaveButtonAccessibility()
+        }
+    }
+    
+    //MARK: - ViewController lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,14 +50,23 @@ class NewItemViewController: UIViewController {
         loadCategories()
     }
     
+    //MARK: - IBActions
+    
     @IBAction func sectionChanged(_ sender: UISegmentedControl) {
-        selectedSection = Section(rawValue: sender.titleForSegment(at: sender.selectedSegmentIndex)!)!
+        guard let newSection = Section(rawValue: sender.titleForSegment(at: sender.selectedSegmentIndex)!) else {
+            showAlert(title: "Failed to get new Section", message: "@IBAction func sectionChanged(_ sender: UISegmentedControl)")
+            return
+        }
+        selectedSection = newSection
+        newItem.section = newSection
         loadCategories()
     }
     
     @IBAction func showHideMenu() {
         menuTabBar.isHidden = menuTabBar.isHidden ? false : true
     }
+    
+    //MARK: - Functions
     
     func loadCategories() {
         activityIndicatorView?.startAnimating()
@@ -63,6 +83,10 @@ class NewItemViewController: UIViewController {
             }
             self.sectionCategories = categories ?? []
         }
+    }
+    
+    func checkSaveButtonAccessibility() {
+        
     }
 }
 
