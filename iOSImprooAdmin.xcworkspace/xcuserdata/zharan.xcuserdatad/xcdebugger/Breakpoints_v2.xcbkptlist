@@ -17,38 +17,6 @@
             endingLineNumber = "64"
             landmarkName = "loadCategories()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in iOSImprooAdmin.NewItemViewController.loadCategories() -&gt; ()"
-                  moduleName = "iOSImprooAdmin"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zharan/iOSImprooAdmin/iOSImprooAdmin/ViewController.swift"
-                  timestampString = "530548612.321653"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "159">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "implicit closure #1 : @autoclosure () throws -&gt; Swift.Array&lt;Swift.String&gt; in closure #1 (Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in iOSImprooAdmin.NewItemViewController.loadCategories() -&gt; ()"
-                  moduleName = "iOSImprooAdmin"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zharan/iOSImprooAdmin/iOSImprooAdmin/ViewController.swift"
-                  timestampString = "530548612.325566"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "50">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

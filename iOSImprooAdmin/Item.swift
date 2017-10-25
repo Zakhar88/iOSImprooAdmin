@@ -9,18 +9,14 @@
 import Firebase
 
 struct Item {
-    var id: String = ""
-    var title: String = ""
-    var description: String = ""
-    var categories: [String] = []
+    var id: String
+    var title: String
+    var description: String
+    var categories: [String]
     var url: URL?
     var image: UIImage?
     var section: Section
     var author: String?
-    
-    init(section: Section) {
-        self.section = section
-    }
     
     init?(documentSnapshot: DocumentSnapshot, section: Section) {
         

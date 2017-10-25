@@ -52,6 +52,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="bSt-aT-m1T"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="xk2-Mr-UuR"/>
                                 </connections>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ufY-vZ-e0g">
@@ -59,6 +60,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="titleTextFieldEditingChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="ZL9-3T-cdB"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Author?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6eZ-dp-QB1">
                                 <rect key="frame" x="15" y="167" width="723" height="30"/>
@@ -83,6 +87,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" smartQuotesType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="ZNu-O0-Eca"/>
+                                </connections>
                             </textView>
                             <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sDu-Qf-H8k">
                                 <rect key="frame" x="15" y="723" width="723" height="30"/>
@@ -108,9 +115,12 @@
                                 <rect key="frame" x="494" y="366" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
-                            <tabBar hidden="YES" contentMode="scaleToFill" itemPositioning="centered" translatesAutoresizingMaskIntoConstraints="NO" id="B4w-HJ-e8y">
-                                <rect key="frame" x="0.0" y="719" width="1024" height="49"/>
+                            <tabBar contentMode="scaleToFill" itemPositioning="centered" translatesAutoresizingMaskIntoConstraints="NO" id="B4w-HJ-e8y">
+                                <rect key="frame" x="0.0" y="768" width="1024" height="0.0"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="LPf-X7-Zkw"/>
+                                </constraints>
                                 <items>
                                     <tabBarItem title="New Item" id="OIY-X3-Ddg">
                                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
@@ -163,19 +173,31 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="save" id="HzD-em-Ceo"/>
-                            <barButtonItem title="Clean" id="Ogu-M4-lWl"/>
+                            <barButtonItem enabled="NO" systemItem="save" id="HzD-em-Ceo">
+                                <connections>
+                                    <action selector="saveTapped:" destination="BYZ-38-t0r" id="GdC-6W-5Vi"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Clean" id="Ogu-M4-lWl">
+                                <connections>
+                                    <action selector="cleanAllFields" destination="BYZ-38-t0r" id="AFr-Yk-E8a"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicatorView" destination="7aT-GG-1he" id="2sW-K4-nDE"/>
                         <outlet property="authorField" destination="6eZ-dp-QB1" id="4nu-Yd-jqP"/>
                         <outlet property="categoriesTableView" destination="0m5-dH-8Ig" id="2ta-MD-F4M"/>
+                        <outlet property="cleanBarButton" destination="Ogu-M4-lWl" id="yDH-Mr-BDR"/>
                         <outlet property="descriptionTextView" destination="fnO-fc-SBv" id="zTE-Lo-tao"/>
                         <outlet property="idField" destination="sDu-Qf-H8k" id="ag5-qT-glg"/>
+                        <outlet property="imageUrlField" destination="hGn-gG-7fY" id="bkT-eQ-mac"/>
                         <outlet property="menuTabBar" destination="B4w-HJ-e8y" id="b3x-3H-C90"/>
+                        <outlet property="menuTabBarHeightConstraint" destination="LPf-X7-Zkw" id="8Da-bm-H5K"/>
+                        <outlet property="saveBarButton" destination="HzD-em-Ceo" id="WUw-9y-OBz"/>
                         <outlet property="sectionSegmentedControl" destination="KWn-Bx-Lz4" id="QX5-pg-FcC"/>
-                        <outlet property="titlField" destination="ufY-vZ-e0g" id="Pab-Cd-soe"/>
+                        <outlet property="titleField" destination="ufY-vZ-e0g" id="ZRg-Vw-aZC"/>
                         <outlet property="urlField" destination="dM4-0w-v5N" id="fz7-15-ztr"/>
                     </connections>
                 </viewController>

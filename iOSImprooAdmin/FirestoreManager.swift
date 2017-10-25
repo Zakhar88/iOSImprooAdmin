@@ -34,7 +34,7 @@ class FirestoreManager {
     
     func loadCategories(forSection section: Section, completion: @escaping ([String]?, Error?)->()) {
         databaseReference.document("ukrainian/\(section.rawValue)").getDocument { (documentSnaphot, error) in
-            guard documentSnaphot?.exists == true, var categories = documentSnaphot?.data()["Categories"] as? [String] else {
+            guard documentSnaphot?.exists == true, let categories = documentSnaphot?.data()["Categories"] as? [String] else {
                 completion(nil, error)
                 return
             }
@@ -51,4 +51,11 @@ class FirestoreManager {
 //            completion(documents.flatMap({Item(documentSnapshot: $0, section: section)}).sorted{$0.title < $1.title}, nil)
 //        }
 //    }
+    
+    func addDocument(forSection section: Section, data: [String: Any], completion: @escaping (_ id: String?, _ error: Error?)->()) {
+        var newDocumentReference: DocumentReference?
+        newDocumentReference = databaseReference.collection("ukrainian/\(section.rawValue)/Collection").addDocument(data: data) { error in
+            completion(newDocumentReference?.documentID, error)
+        }
+    }
 }
