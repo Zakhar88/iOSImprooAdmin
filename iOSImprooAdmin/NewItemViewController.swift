@@ -105,7 +105,7 @@ class NewItemViewController: UIViewController {
                 return
             }
             self.idField.text = newItemId
-            
+            self.uploadImage(withName: newItemId)
         }
     }
     
@@ -149,6 +149,18 @@ class NewItemViewController: UIViewController {
     
     func checkSaveButtonAccessibility() {
         saveBarButton.isEnabled = titleField.text?.isEmpty == false  && !descriptionTextView.text.isEmpty && !categories.isEmpty
+    }
+    
+    func uploadImage(withName imageName: String) {
+        guard let imageUrlString = imageUrlField.text, imageUrlString.isEmpty else {
+            showAlert(title: "Failed to get image URL", message: "func uploadImage(withName: String, completion: @escaping (Error?)->() )")
+            return
+        }
+        StorageManager.uploadImage(byUrl: imageUrlString, withName: imageName, forSection: selectedSection) { (error) in
+            if let error = error {
+                self.showError(error)
+            }
+        }
     }
 }
 

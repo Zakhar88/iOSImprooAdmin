@@ -70,4 +70,21 @@ class StorageManager {
             }
         }
     }
+    
+    static func uploadImage(byUrl urlString: String, withName imageName: String, forSection section: Section, completion: @escaping (Error?)->() ) {
+        guard let imageUrl = URL(string: urlString) else { return }
+        
+        do {
+            let data = try Data(contentsOf: imageUrl)
+            let storageReference = Storage.storage().reference().child(section.rawValue + "/" + imageName + ".jpeg")
+            storageReference.putData(data, metadata: nil, completion: { (metadata, error) in
+                print(metadata?.downloadURL()?.absoluteString)
+                completion(error)
+            })
+            
+        } catch {
+            completion(error)
+        }
+        
+    }
 }
