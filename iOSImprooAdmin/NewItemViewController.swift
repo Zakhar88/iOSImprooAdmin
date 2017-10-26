@@ -163,6 +163,8 @@ class NewItemViewController: UIViewController {
             
             if let error = error {
                 self.showError(error)
+            } else {
+                self.cleanAllFields()
             }
         }
     }
