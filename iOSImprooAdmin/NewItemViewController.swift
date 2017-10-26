@@ -96,10 +96,11 @@ class NewItemViewController: UIViewController {
         
         FirestoreManager.shared.addDocument(forSection: selectedSection, data: newItemData) { (newItemId, error) in
             
-            self.activityIndicatorView?.stopAnimating()
-            UIApplication.shared.endIgnoringInteractionEvents()
-            
             guard let newItemId = newItemId else {
+                
+                self.activityIndicatorView?.stopAnimating()
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
                 self.showError(error)
                 self.idField.text = error?.localizedDescription
                 return
@@ -139,11 +140,11 @@ class NewItemViewController: UIViewController {
             self.activityIndicatorView?.stopAnimating()
             UIApplication.shared.endIgnoringInteractionEvents()
             
-            guard error == nil else {
+            guard error == nil, let categories = categories else {
                 self.showError(error)
                 return
             }
-            self.sectionCategories = categories ?? []
+            self.sectionCategories = categories.sorted()
         }
     }
     
@@ -152,11 +153,14 @@ class NewItemViewController: UIViewController {
     }
     
     func uploadImage(withName imageName: String) {
-        guard let imageUrlString = imageUrlField.text, imageUrlString.isEmpty else {
-            showAlert(title: "Failed to get image URL", message: "func uploadImage(withName: String, completion: @escaping (Error?)->() )")
+        guard let imageUrlString = imageUrlField.text, !imageUrlString.isEmpty else {
+            showAlert(title: "Failed to get image URL", message: "func uploadImage(withName: String, completion: @escaping (Error?)->())")
             return
         }
         StorageManager.uploadImage(byUrl: imageUrlString, withName: imageName, forSection: selectedSection) { (error) in
+            self.activityIndicatorView?.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
             if let error = error {
                 self.showError(error)
             }
@@ -195,6 +199,7 @@ extension NewItemViewController: UITextViewDelegate {
         checkSaveButtonAccessibility()
     }
 }
+
 
 
 
