@@ -42,15 +42,15 @@ class FirestoreManager {
         }
     }
     
-//    func loadDocuments(forSection section: Section, completion: @escaping ([Item]?, Error?)->()) {
-//        databaseReference.collection("ukrainian/\(section.rawValue)/Collection").getDocuments { (querySnapshot, error) in
-//            guard let documents = querySnapshot?.documents else {
-//                completion(nil, error)
-//                return
-//            }
-//            completion(documents.flatMap({Item(documentSnapshot: $0, section: section)}).sorted{$0.title < $1.title}, nil)
-//        }
-//    }
+    func loadDocuments(forSection section: Section, completion: @escaping ([Item]?, Error?)->()) {
+        databaseReference.collection("ukrainian/\(section.rawValue)/Collection").getDocuments { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                completion(nil, error)
+                return
+            }
+            completion(documents.flatMap({Item(documentSnapshot: $0, section: section)}).sorted{$0.title < $1.title}, nil)
+        }
+    }
     
     func addDocument(forSection section: Section, data: [String: Any], completion: @escaping (_ id: String?, _ error: Error?)->()) {
         var newDocumentReference: DocumentReference?

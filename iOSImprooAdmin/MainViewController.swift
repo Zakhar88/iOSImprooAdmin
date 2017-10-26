@@ -1,5 +1,5 @@
 //
-//  NewItemViewController.swift
+//  MainViewController.swift
 //  iOSImprooAdmin
 //
 //  Created by Zakhar Garan on 24.10.17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewItemViewController: UIViewController {
+class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
     
     //MARK: - IBOutlets
     
@@ -16,6 +16,7 @@ class NewItemViewController: UIViewController {
     @IBOutlet weak var categoriesTableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var menuTabBar: UITabBar!
+    @IBOutlet weak var itemsTableView: UITableView!
     
     @IBOutlet weak var saveBarButton: UIBarButtonItem!
     @IBOutlet weak var cleanBarButton: UIBarButtonItem!
@@ -28,10 +29,37 @@ class NewItemViewController: UIViewController {
     @IBOutlet weak var idField: UITextField!
     
     @IBOutlet weak var menuTabBarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var itemsTableViewWidthConstraint: NSLayoutConstraint!
     
     //MARK: - Properties
     
-    var selectedSection: Section = .Activities
+    var itemsTableViewManager: ItemsTableViewManager?
+    var editingMode: Bool = false
+    var initialItem: Item? {
+        didSet {
+            if let item = initialItem {
+                titleField.text = item.title
+                authorField.text = item.author
+                urlField.text = item.url?.absoluteString
+                descriptionTextView.text = item.description
+                idField.text = item.id
+                deselectaAllCategories()
+                item.categories.forEach({ category in
+                    if let index = sectionCategories.index(of: category) {
+                        categoriesTableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
+                    }
+                })
+                saveBarButton.isEnabled = true
+            }
+        }
+    }
+    
+    var selectedSection: Section = .Activities {
+        didSet {
+            itemsTableViewManager?.loadItems()
+        }
+    }
+    
     var sectionCategories = [String]() {
         didSet {
             DispatchQueue.main.async {
@@ -53,7 +81,8 @@ class NewItemViewController: UIViewController {
         view.layoutIfNeeded()
         descriptionTextView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
         categoriesTableView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
-        
+        itemsTableView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
+
         loadCategories()
     }
     
@@ -120,16 +149,21 @@ class NewItemViewController: UIViewController {
         urlField.text = ""
         imageUrlField.text = ""
         descriptionTextView.text = ""
+        idField.text = ""
+        saveBarButton.isEnabled = false
+        deselectaAllCategories()
+    }
+    
+    
+    //MARK: - Functions
+    
+    func deselectaAllCategories() {
         if let selectedRows = categoriesTableView.indexPathsForSelectedRows {
             for row in selectedRows {
                 categoriesTableView.deselectRow(at: row, animated: true)
             }
         }
-        saveBarButton.isEnabled = false
     }
-    
-    
-    //MARK: - Functions
     
     func loadCategories() {
         activityIndicatorView?.startAnimating()
@@ -149,7 +183,11 @@ class NewItemViewController: UIViewController {
     }
     
     func checkSaveButtonAccessibility() {
-        saveBarButton.isEnabled = titleField.text?.isEmpty == false  && !descriptionTextView.text.isEmpty && !categories.isEmpty
+        if !editingMode {
+            saveBarButton.isEnabled = titleField.text?.isEmpty == false  && !descriptionTextView.text.isEmpty && !categories.isEmpty
+        } else {
+            //TODO: Add checking
+        }
     }
     
     func uploadImage(withName imageName: String) {
@@ -168,9 +206,33 @@ class NewItemViewController: UIViewController {
             }
         }
     }
+    
+    func disableEditMode() {
+        editingMode = false
+        itemsTableViewManager = nil
+        UIView.animate(withDuration: 0.4) {
+            self.itemsTableViewWidthConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+        return
+    }
+    
+    func enableEditMode() {
+        editingMode = true
+        UIView.animate(withDuration: 0.4) {
+            self.itemsTableViewWidthConstraint.constant = 250
+            self.view.layoutIfNeeded()
+        }
+        itemsTableViewManager = ItemsTableViewManager(delegate: self, selectItemAction: { (item) in
+            self.initialItem = item
+        })
+        itemsTableView.dataSource = itemsTableViewManager
+        itemsTableView.delegate = itemsTableViewManager
+        itemsTableViewManager?.loadItems()
+    }
 }
 
-extension NewItemViewController: UITableViewDataSource {
+extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sectionCategories.count
     }
@@ -182,7 +244,7 @@ extension NewItemViewController: UITableViewDataSource {
     }
 }
 
-extension NewItemViewController: UITableViewDelegate {
+extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         categories.append(sectionCategories[indexPath.row])
     }
@@ -196,7 +258,7 @@ extension NewItemViewController: UITableViewDelegate {
     }
 }
 
-extension NewItemViewController: UITextViewDelegate {
+extension MainViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         checkSaveButtonAccessibility()
     }
