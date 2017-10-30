@@ -15,10 +15,9 @@ struct Item {
     var categories: [String]
     var url: URL?
     var image: UIImage?
-    var section: Section
     var author: String?
     
-    init?(documentSnapshot: DocumentSnapshot, section: Section) {
+    init?(documentSnapshot: DocumentSnapshot) {
         
         let dictionary = documentSnapshot.data()
         guard  let title = dictionary["title"] as? String,
@@ -39,7 +38,5 @@ struct Item {
         if let author = dictionary["author"] as? String {
             self.author = author
         }
-        
-        self.section = section
     }
 }

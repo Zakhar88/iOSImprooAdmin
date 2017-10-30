@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5E6D13206E4AF81592526415 /* Pods_iOSImprooAdmin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105C14A54D786495A4523578 /* Pods_iOSImprooAdmin.framework */; };
+		6B05831E1FA7634E00204C62 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B05831D1FA7634E00204C62 /* MainViewController.swift */; };
 		6B934B5A1FA229D400564818 /* ItemsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B934B591FA229D400564818 /* ItemsTableViewManager.swift */; };
-		6BDA2BCE1FA23AEC0090E926 /* MainViewController+TabBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA2BCD1FA23AEC0090E926 /* MainViewController+TabBarDelegate.swift */; };
 		6BED0CA71F9F54BC00FF9B2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0CA61F9F54BC00FF9B2F /* AppDelegate.swift */; };
-		6BED0CA91F9F54BC00FF9B2F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0CA81F9F54BC00FF9B2F /* MainViewController.swift */; };
+		6BED0CA91F9F54BC00FF9B2F /* CreateEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0CA81F9F54BC00FF9B2F /* CreateEditViewController.swift */; };
 		6BED0CAC1F9F54BC00FF9B2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BED0CAA1F9F54BC00FF9B2F /* Main.storyboard */; };
 		6BED0CAE1F9F54BC00FF9B2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BED0CAD1F9F54BC00FF9B2F /* Assets.xcassets */; };
 		6BED0CB11F9F54BD00FF9B2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BED0CAF1F9F54BD00FF9B2F /* LaunchScreen.storyboard */; };
@@ -27,11 +27,11 @@
 /* Begin PBXFileReference section */
 		105C14A54D786495A4523578 /* Pods_iOSImprooAdmin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSImprooAdmin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D5290BA95708A0780DD62AB /* Pods-iOSImprooAdmin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSImprooAdmin.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSImprooAdmin/Pods-iOSImprooAdmin.release.xcconfig"; sourceTree = "<group>"; };
+		6B05831D1FA7634E00204C62 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6B934B591FA229D400564818 /* ItemsTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewManager.swift; sourceTree = "<group>"; };
-		6BDA2BCD1FA23AEC0090E926 /* MainViewController+TabBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+TabBarDelegate.swift"; sourceTree = "<group>"; };
 		6BED0CA31F9F54BC00FF9B2F /* iOSImprooAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSImprooAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BED0CA61F9F54BC00FF9B2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6BED0CA81F9F54BC00FF9B2F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		6BED0CA81F9F54BC00FF9B2F /* CreateEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditViewController.swift; sourceTree = "<group>"; };
 		6BED0CAB1F9F54BC00FF9B2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6BED0CAD1F9F54BC00FF9B2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6BED0CB01F9F54BD00FF9B2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -66,6 +66,43 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6B0583181FA7603E00204C62 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6B05831D1FA7634E00204C62 /* MainViewController.swift */,
+				6BED0CA81F9F54BC00FF9B2F /* CreateEditViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		6B0583191FA7604D00204C62 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6BED0CC21F9F805C00FF9B2F /* ViewController+Alerts.swift */,
+				6BED0CBA1F9F7B1D00FF9B2F /* UIView+Border.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6B05831A1FA7606700204C62 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6BED0CC41F9F8EC600FF9B2F /* Item.swift */,
+				6BED0CC01F9F7F8C00FF9B2F /* Section.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6B05831C1FA7607F00204C62 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6BED0CAA1F9F54BC00FF9B2F /* Main.storyboard */,
+				6BED0CAD1F9F54BC00FF9B2F /* Assets.xcassets */,
+				6BED0CAF1F9F54BD00FF9B2F /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		6BED0C9A1F9F54BC00FF9B2F = {
 			isa = PBXGroup;
 			children = (
@@ -87,17 +124,12 @@
 		6BED0CA51F9F54BC00FF9B2F /* iOSImprooAdmin */ = {
 			isa = PBXGroup;
 			children = (
-				6BED0CBA1F9F7B1D00FF9B2F /* UIView+Border.swift */,
-				6BED0CC21F9F805C00FF9B2F /* ViewController+Alerts.swift */,
+				6B05831A1FA7606700204C62 /* Model */,
+				6B05831C1FA7607F00204C62 /* View */,
+				6B0583181FA7603E00204C62 /* Controllers */,
+				6B0583191FA7604D00204C62 /* Extensions */,
 				6BED0CA61F9F54BC00FF9B2F /* AppDelegate.swift */,
-				6BED0CC41F9F8EC600FF9B2F /* Item.swift */,
-				6BED0CC01F9F7F8C00FF9B2F /* Section.swift */,
-				6BED0CA81F9F54BC00FF9B2F /* MainViewController.swift */,
-				6BDA2BCD1FA23AEC0090E926 /* MainViewController+TabBarDelegate.swift */,
 				6B934B591FA229D400564818 /* ItemsTableViewManager.swift */,
-				6BED0CAA1F9F54BC00FF9B2F /* Main.storyboard */,
-				6BED0CAD1F9F54BC00FF9B2F /* Assets.xcassets */,
-				6BED0CAF1F9F54BD00FF9B2F /* LaunchScreen.storyboard */,
 				6BED0CBD1F9F7F2900FF9B2F /* FirestoreManager.swift */,
 				6BED0CBC1F9F7F2800FF9B2F /* StorageManager.swift */,
 				6BED0CB21F9F54BD00FF9B2F /* Info.plist */,
@@ -239,16 +271,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BED0CA91F9F54BC00FF9B2F /* MainViewController.swift in Sources */,
+				6BED0CA91F9F54BC00FF9B2F /* CreateEditViewController.swift in Sources */,
 				6BED0CC31F9F805C00FF9B2F /* ViewController+Alerts.swift in Sources */,
 				6BED0CBF1F9F7F2A00FF9B2F /* FirestoreManager.swift in Sources */,
 				6BED0CA71F9F54BC00FF9B2F /* AppDelegate.swift in Sources */,
-				6BDA2BCE1FA23AEC0090E926 /* MainViewController+TabBarDelegate.swift in Sources */,
 				6BED0CC51F9F8EC600FF9B2F /* Item.swift in Sources */,
 				6B934B5A1FA229D400564818 /* ItemsTableViewManager.swift in Sources */,
 				6BED0CC11F9F7F8C00FF9B2F /* Section.swift in Sources */,
 				6BED0CBB1F9F7B1D00FF9B2F /* UIView+Border.swift in Sources */,
 				6BED0CBE1F9F7F2A00FF9B2F /* StorageManager.swift in Sources */,
+				6B05831E1FA7634E00204C62 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

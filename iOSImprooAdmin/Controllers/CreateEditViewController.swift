@@ -8,15 +8,13 @@
 
 import UIKit
 
-class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
+class CreateEditViewController: UIViewController {
     
     //MARK: - IBOutlets
     
     @IBOutlet weak var sectionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var categoriesTableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var menuTabBar: UITabBar!
-    @IBOutlet weak var itemsTableView: UITableView!
     
     @IBOutlet weak var saveBarButton: UIBarButtonItem!
     @IBOutlet weak var cleanBarButton: UIBarButtonItem!
@@ -28,35 +26,12 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var idField: UITextField!
     
-    @IBOutlet weak var menuTabBarHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var itemsTableViewWidthConstraint: NSLayoutConstraint!
-    
     //MARK: - Properties
     
-    var itemsTableViewManager: ItemsTableViewManager?
-    var editingMode: Bool = false
-    var initialItem: Item? {
-        didSet {
-            if let item = initialItem {
-                titleField.text = item.title
-                authorField.text = item.author
-                urlField.text = item.url?.absoluteString
-                descriptionTextView.text = item.description
-                idField.text = item.id
-                deselectaAllCategories()
-                item.categories.forEach({ category in
-                    if let index = sectionCategories.index(of: category) {
-                        categoriesTableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
-                    }
-                })
-                saveBarButton.isEnabled = true
-            }
-        }
-    }
-    
+    var initialItem: Item?
     var selectedSection: Section = .Activities {
         didSet {
-            itemsTableViewManager?.loadItems()
+            loadCategories()
         }
     }
     
@@ -64,11 +39,12 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
         didSet {
             DispatchQueue.main.async {
                 self.categoriesTableView.reloadData()
+                self.preselectCategoriesForInitialItem()
             }
         }
     }
     
-    var categories = [String]() {
+    var selectedCategories = [String]() {
         didSet {
             checkSaveButtonAccessibility()
         }
@@ -81,8 +57,6 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
         view.layoutIfNeeded()
         descriptionTextView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
         categoriesTableView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
-        itemsTableView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
-
         loadCategories()
     }
     
@@ -94,23 +68,15 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
             return
         }
         selectedSection = newSection
-        loadCategories()
-    }
-    
-    @IBAction func showHideMenu() {
-        UIView.animate(withDuration: 0.4) {
-            self.menuTabBarHeightConstraint.constant = self.menuTabBarHeightConstraint.constant == 0 ? 49 : 0
-            self.view.layoutIfNeeded()
-        }
     }
     
     @IBAction func saveTapped(_ sender: UIBarButtonItem?) {
-        guard let title = titleField.text, !title.isEmpty, let description = descriptionTextView.text, !description.isEmpty, !categories.isEmpty else {
+        guard let title = titleField.text, !title.isEmpty, let description = descriptionTextView.text, !description.isEmpty, !selectedCategories.isEmpty else {
             showAlert(title: "Failed to get title / description / categories.", message: "@IBAction func saveTapped(_ sender: UIBarButtonItem?)")
             return
         }
         
-        var newItemData: [String: Any] = ["title":title, "description": description, "categories": categories]
+        var newItemData: [String: Any] = ["title":title, "description": description, "categories": selectedCategories]
         
         if let author = authorField.text, !author.isEmpty {
             newItemData["author"] = author
@@ -123,10 +89,9 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
         activityIndicatorView?.startAnimating()
         UIApplication.shared.beginIgnoringInteractionEvents()
         
-        FirestoreManager.shared.addDocument(forSection: selectedSection, data: newItemData) { (newItemId, error) in
+        FirestoreManager.shared.updateDocument(forSection: selectedSection, data: newItemData, id: initialItem?.id) { (newItemId, error) in
             
             guard let newItemId = newItemId else {
-                
                 self.activityIndicatorView?.stopAnimating()
                 UIApplication.shared.endIgnoringInteractionEvents()
                 
@@ -135,12 +100,20 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
                 return
             }
             self.idField.text = newItemId
-            self.uploadImage(withName: newItemId)
+            
+            if let imageUrlString = self.imageUrlField.text, !imageUrlString.isEmpty {
+                self.uploadImage(withName: newItemId, fromUrl: imageUrlString)
+            } else {
+                self.activityIndicatorView?.stopAnimating()
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
+                if self.initialItem == nil {
+                    self.showAlert(title: "Failed to get image URL", message: "func uploadImage(withName: String, completion: @escaping (Error?)->())")
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
         }
-    }
-    
-    @IBAction func titleTextFieldEditingChanged(_ sender: UITextField) {
-        checkSaveButtonAccessibility()
     }
     
     @IBAction func cleanAllFields() {
@@ -154,6 +127,9 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
         deselectaAllCategories()
     }
     
+    @IBAction func textFieldsEditingChanged(_ sender: UITextField) {
+        checkSaveButtonAccessibility()
+    }
     
     //MARK: - Functions
     
@@ -165,7 +141,7 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
         }
     }
     
-    func loadCategories() {
+    func loadCategories(){
         activityIndicatorView?.startAnimating()
         UIApplication.shared.beginIgnoringInteractionEvents()
         
@@ -183,19 +159,15 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
     }
     
     func checkSaveButtonAccessibility() {
-        if !editingMode {
-            saveBarButton.isEnabled = titleField.text?.isEmpty == false  && !descriptionTextView.text.isEmpty && !categories.isEmpty
+        if let initialItem = initialItem {
+            saveBarButton.isEnabled = titleField.text != initialItem.title || descriptionTextView.text != initialItem.description || selectedCategories != initialItem.categories || authorField.text != (initialItem.author ?? nil) || urlField.text != (initialItem.url?.absoluteString ?? "")
         } else {
-            //TODO: Add checking
+            saveBarButton.isEnabled = titleField.text?.isEmpty == false  && !descriptionTextView.text.isEmpty && !selectedCategories.isEmpty
         }
     }
     
-    func uploadImage(withName imageName: String) {
-        guard let imageUrlString = imageUrlField.text, !imageUrlString.isEmpty else {
-            showAlert(title: "Failed to get image URL", message: "func uploadImage(withName: String, completion: @escaping (Error?)->())")
-            return
-        }
-        StorageManager.uploadImage(byUrl: imageUrlString, withName: imageName, forSection: selectedSection) { (error) in
+    func uploadImage(withName imageName: String, fromUrl urlString: String) {
+        StorageManager.uploadImage(byUrl: urlString, withName: imageName, forSection: selectedSection) { (error) in
             self.activityIndicatorView?.stopAnimating()
             UIApplication.shared.endIgnoringInteractionEvents()
             
@@ -207,32 +179,40 @@ class MainViewController: UIViewController, ItemsTableViewManagerDelegate {
         }
     }
     
-    func disableEditMode() {
-        editingMode = false
-        itemsTableViewManager = nil
-        UIView.animate(withDuration: 0.4) {
-            self.itemsTableViewWidthConstraint.constant = 0
-            self.view.layoutIfNeeded()
+    func setInitialItem(_ item: Item, section: Section) {
+        view.layoutIfNeeded()
+        title = "Edit"
+        sectionSegmentedControl.isEnabled = false
+        for index in 0..<sectionSegmentedControl.numberOfSegments {
+            if sectionSegmentedControl.titleForSegment(at: index) == section.rawValue {
+                sectionSegmentedControl.selectedSegmentIndex = index
+                break
+            }
         }
-        return
+        
+        initialItem = item
+        titleField.text = item.title
+        authorField.text = item.author
+        urlField.text = item.url?.absoluteString
+        descriptionTextView.text = item.description
+        idField.text = item.id
+        selectedCategories = item.categories
+        
+        selectedSection = section
     }
     
-    func enableEditMode() {
-        editingMode = true
-        UIView.animate(withDuration: 0.4) {
-            self.itemsTableViewWidthConstraint.constant = 250
-            self.view.layoutIfNeeded()
+    private func preselectCategoriesForInitialItem() {
+        if let categories = initialItem?.categories {
+            categories.forEach({ category in
+                if let index = sectionCategories.index(of: category) {
+                    categoriesTableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
+                }
+            })
         }
-        itemsTableViewManager = ItemsTableViewManager(delegate: self, selectItemAction: { (item) in
-            self.initialItem = item
-        })
-        itemsTableView.dataSource = itemsTableViewManager
-        itemsTableView.delegate = itemsTableViewManager
-        itemsTableViewManager?.loadItems()
     }
 }
 
-extension MainViewController: UITableViewDataSource {
+extension CreateEditViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sectionCategories.count
     }
@@ -244,29 +224,22 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
-extension MainViewController: UITableViewDelegate {
+extension CreateEditViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        categories.append(sectionCategories[indexPath.row])
+        selectedCategories.append(sectionCategories[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let deselectedCategoryIndex = categories.index(of: sectionCategories[indexPath.row]) else {
+        guard let deselectedCategoryIndex = selectedCategories.index(of: sectionCategories[indexPath.row]) else {
             showAlert(title: "Failed to get deselectedCategoryIndex", message: "func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath)")
             return
         }
-        categories.remove(at: deselectedCategoryIndex)
+        selectedCategories.remove(at: deselectedCategoryIndex)
     }
 }
 
-extension MainViewController: UITextViewDelegate {
+extension CreateEditViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         checkSaveButtonAccessibility()
     }
 }
-
-
-
-
-
-
-

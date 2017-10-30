@@ -48,14 +48,20 @@ class FirestoreManager {
                 completion(nil, error)
                 return
             }
-            completion(documents.flatMap({Item(documentSnapshot: $0, section: section)}).sorted{$0.title < $1.title}, nil)
+            completion(documents.flatMap({Item(documentSnapshot: $0)}).sorted{$0.title < $1.title}, nil)
         }
     }
     
-    func addDocument(forSection section: Section, data: [String: Any], completion: @escaping (_ id: String?, _ error: Error?)->()) {
-        var newDocumentReference: DocumentReference?
-        newDocumentReference = databaseReference.collection("ukrainian/\(section.rawValue)/Collection").addDocument(data: data) { error in
-            completion(newDocumentReference?.documentID, error)
+    func updateDocument(forSection section: Section, data: [String: Any], id: String? = nil, completion: @escaping (_ id: String?, _ error: Error?)->()) {
+        if let id = id {
+            databaseReference.collection("ukrainian/\(section.rawValue)/Collection").document(id).setData(data, completion: { error in
+                DispatchQueue.main.async { completion(id, error) }
+            })
+        } else {
+            var newDocumentReference: DocumentReference?
+            newDocumentReference = databaseReference.collection("ukrainian/\(section.rawValue)/Collection").addDocument(data: data) { error in
+                DispatchQueue.main.async { completion(newDocumentReference?.documentID, error) }
+            }
         }
     }
 }
