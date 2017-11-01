@@ -64,4 +64,10 @@ class FirestoreManager {
             }
         }
     }
+    
+    func uploadCategories(forSection section: Section, categories: [String], completion: @escaping (Error?)->()) {
+        databaseReference.document("ukrainian/\(section.rawValue)").updateData(["Categories": categories]) { error in
+            completion(error)
+        }
+    }
 }

@@ -8,26 +8,14 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UpdateDelegate {
     
     @IBOutlet weak var itemsTableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
-    var selectedSection: Section! {
+    var selectedSection: Section = .Activities {
         didSet {
-            activityIndicatorView.startAnimating()
-            itemsTableView.isUserInteractionEnabled = false
-            FirestoreManager.shared.loadDocuments(forSection: selectedSection) { (items, error) in
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.stopAnimating()
-                    self.itemsTableView.isUserInteractionEnabled = true
-                    if let items = items {
-                        self.items = items
-                    } else {
-                        self.showError(error)
-                    }
-                }
-            }
+            loadItems()
         }
     }
     
@@ -40,7 +28,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         itemsTableView.addBorder(width: 1, color: UIColor.lightGray.withAlphaComponent(0.6))
-        selectedSection = .Activities
+        loadItems()
     }
     
     @IBAction func sectionChanged(_ sender: UISegmentedControl) {
@@ -49,6 +37,22 @@ class MainViewController: UIViewController {
             return
         }
         selectedSection = newSection
+    }
+    
+    func loadItems() {
+        activityIndicatorView.startAnimating()
+        itemsTableView.isUserInteractionEnabled = false
+        FirestoreManager.shared.loadDocuments(forSection: selectedSection) { (items, error) in
+            DispatchQueue.main.async {
+                self.activityIndicatorView.stopAnimating()
+                self.itemsTableView.isUserInteractionEnabled = true
+                if let items = items {
+                    self.items = items
+                } else {
+                    self.showError(error)
+                }
+            }
+        }
     }
 }
 
@@ -67,6 +71,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CreateEditViewController") as! CreateEditViewController
         editViewController.setInitialItem(items[indexPath.row], section: selectedSection)
+        editViewController.delegate = self
         navigationController?.pushViewController(editViewController, animated: true)
     }
 }

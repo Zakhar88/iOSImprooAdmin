@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol UpdateDelegate {
+    func loadItems()
+}
+
 class CreateEditViewController: UIViewController {
     
     //MARK: - IBOutlets
@@ -29,6 +33,7 @@ class CreateEditViewController: UIViewController {
     //MARK: - Properties
     
     var initialItem: Item?
+    var delegate: UpdateDelegate?
     var selectedSection: Section = .Activities {
         didSet {
             loadCategories()
@@ -110,6 +115,7 @@ class CreateEditViewController: UIViewController {
                 if self.initialItem == nil {
                     self.showAlert(title: "Failed to get image URL", message: "func uploadImage(withName: String, completion: @escaping (Error?)->())")
                 } else {
+                    self.delegate?.loadItems()
                     self.navigationController?.popViewController(animated: true)
                 }
             }

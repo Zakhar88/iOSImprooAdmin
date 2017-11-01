@@ -16,7 +16,8 @@ extension UIViewController {
     }
     
     func showError(_ error: Error?) {
-        showAlert(title: "Error", message: error?.localizedDescription)
+        guard let error = error else { return }
+        showAlert(title: "Error", message: error.localizedDescription)
     }
 }
 
