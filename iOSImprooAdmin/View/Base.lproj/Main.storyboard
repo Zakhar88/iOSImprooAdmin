@@ -39,6 +39,10 @@
                                 <rect key="frame" x="60" y="196" width="372" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <state key="normal" title="Edit About"/>
+                                <connections>
+                                    <action selector="showAboutTextAlertController" destination="bWl-n3-N3r" eventType="touchUpInside" id="WlP-V7-grP"/>
+                                    <segue destination="cDO-nX-qII" kind="show" id="rAO-co-l2y"/>
+                                </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8eO-Ju-ynH">
                                 <rect key="frame" x="492" y="84" width="512" height="29"/>
@@ -118,6 +122,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VRR-ZG-56f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="520" y="40"/>
+        </scene>
+        <!--About Text-->
+        <scene sceneID="APy-9M-I2J">
+            <objects>
+                <viewController id="cDO-nX-qII" customClass="AboutTextViewController" customModule="iOSImprooAdmin" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BRy-9s-7KM">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bQy-7A-5rB">
+                                <rect key="frame" x="20" y="84" width="984" height="664"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bQy-7A-5rB" firstAttribute="top" secondItem="hYr-kA-66M" secondAttribute="top" constant="20" id="2y1-rw-bOy"/>
+                            <constraint firstItem="hYr-kA-66M" firstAttribute="bottom" secondItem="bQy-7A-5rB" secondAttribute="bottom" constant="20" id="btI-Vw-c8T"/>
+                            <constraint firstItem="hYr-kA-66M" firstAttribute="trailing" secondItem="bQy-7A-5rB" secondAttribute="trailing" constant="20" id="sf8-NK-Kk7"/>
+                            <constraint firstItem="bQy-7A-5rB" firstAttribute="leading" secondItem="hYr-kA-66M" secondAttribute="leading" constant="20" id="xf6-Y0-CBk"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hYr-kA-66M"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="About Text" id="GEm-VL-hNa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="85s-EC-U4K">
+                            <connections>
+                                <action selector="save" destination="cDO-nX-qII" id="Qd5-Qq-t3Z"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textView" destination="bQy-7A-5rB" id="N7L-8K-VoG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LZs-91-6Bg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="520" y="771"/>
         </scene>
         <!--Categories-->
         <scene sceneID="ACa-xD-HrA">

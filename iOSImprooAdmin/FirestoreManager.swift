@@ -70,4 +70,14 @@ class FirestoreManager {
             completion(error)
         }
     }
+    
+    func getAboutText(completion: @escaping (String?)->()) {
+        databaseReference.document("ukrainian/info").getDocument { (snapshot, error) in
+            completion(snapshot?.data()["text"] as? String)
+        }
+    }
+    
+    func updateAboutText(with newText: String) {
+        databaseReference.document("ukrainian/info").setData(["text" : newText])
+    }
 }

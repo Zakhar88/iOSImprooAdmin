@@ -11,6 +11,7 @@
 		6B05831E1FA7634E00204C62 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B05831D1FA7634E00204C62 /* MainViewController.swift */; };
 		6B934B5A1FA229D400564818 /* ItemsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B934B591FA229D400564818 /* ItemsTableViewManager.swift */; };
 		6B9708F91FAA39E1000DDE6B /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9708F81FAA39E1000DDE6B /* CategoriesViewController.swift */; };
+		6BAF47681FACBB8B0018FCF7 /* AboutTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF47671FACBB8B0018FCF7 /* AboutTextViewController.swift */; };
 		6BED0CA71F9F54BC00FF9B2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0CA61F9F54BC00FF9B2F /* AppDelegate.swift */; };
 		6BED0CA91F9F54BC00FF9B2F /* CreateEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0CA81F9F54BC00FF9B2F /* CreateEditViewController.swift */; };
 		6BED0CAC1F9F54BC00FF9B2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BED0CAA1F9F54BC00FF9B2F /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 		6B05831D1FA7634E00204C62 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6B934B591FA229D400564818 /* ItemsTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewManager.swift; sourceTree = "<group>"; };
 		6B9708F81FAA39E1000DDE6B /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
+		6BAF47671FACBB8B0018FCF7 /* AboutTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTextViewController.swift; sourceTree = "<group>"; };
 		6BED0CA31F9F54BC00FF9B2F /* iOSImprooAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSImprooAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BED0CA61F9F54BC00FF9B2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BED0CA81F9F54BC00FF9B2F /* CreateEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				6B05831D1FA7634E00204C62 /* MainViewController.swift */,
 				6BED0CA81F9F54BC00FF9B2F /* CreateEditViewController.swift */,
 				6B9708F81FAA39E1000DDE6B /* CategoriesViewController.swift */,
+				6BAF47671FACBB8B0018FCF7 /* AboutTextViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				6BED0CA71F9F54BC00FF9B2F /* AppDelegate.swift in Sources */,
 				6BED0CC51F9F8EC600FF9B2F /* Item.swift in Sources */,
 				6B934B5A1FA229D400564818 /* ItemsTableViewManager.swift in Sources */,
+				6BAF47681FACBB8B0018FCF7 /* AboutTextViewController.swift in Sources */,
 				6BED0CC11F9F7F8C00FF9B2F /* Section.swift in Sources */,
 				6BED0CBB1F9F7B1D00FF9B2F /* UIView+Border.swift in Sources */,
 				6BED0CBE1F9F7F2A00FF9B2F /* StorageManager.swift in Sources */,

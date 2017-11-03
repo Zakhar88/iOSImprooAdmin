@@ -39,6 +39,10 @@ class MainViewController: UIViewController, UpdateDelegate {
         selectedSection = newSection
     }
     
+    @IBAction func showAboutTextAlertController() {
+
+    }
+    
     func loadItems() {
         activityIndicatorView.startAnimating()
         itemsTableView.isUserInteractionEnabled = false
