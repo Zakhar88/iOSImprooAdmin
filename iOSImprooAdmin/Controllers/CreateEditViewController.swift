@@ -131,6 +131,7 @@ class CreateEditViewController: UIViewController {
         idField.text = ""
         saveBarButton.isEnabled = false
         deselectaAllCategories()
+        selectedCategories = [String]()
     }
     
     @IBAction func textFieldsEditingChanged(_ sender: UITextField) {
