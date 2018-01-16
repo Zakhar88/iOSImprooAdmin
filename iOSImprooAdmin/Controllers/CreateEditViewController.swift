@@ -34,7 +34,7 @@ class CreateEditViewController: UIViewController {
     
     var initialItem: Item?
     var delegate: UpdateDelegate?
-    var selectedSection: Section = .Activities {
+    var selectedSection: Section = .Articles {
         didSet {
             loadCategories()
         }

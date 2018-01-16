@@ -13,7 +13,7 @@ class CategoriesViewController: UIViewController {
     @IBOutlet weak var categoriesTableView: UITableView?
     @IBOutlet weak var newCategoryTextField: UITextField?
     
-    var section: Section = .Activities {
+    var section: Section = .Articles {
         didSet {
             loadCategories()
         }

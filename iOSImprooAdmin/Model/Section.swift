@@ -10,7 +10,7 @@ import Foundation
 
 enum Section: String {
     case About = "About"
-    case Activities = "Activities"
+    case Articles = "Articles"
     case Books = "Books"
     case Courses = "Courses"
     case Entertainment = "Entertainment"

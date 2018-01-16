@@ -13,7 +13,7 @@ class MainViewController: UIViewController, UpdateDelegate {
     @IBOutlet weak var itemsTableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
-    var selectedSection: Section = .Activities {
+    var selectedSection: Section = .Articles {
         didSet {
             loadItems()
         }
