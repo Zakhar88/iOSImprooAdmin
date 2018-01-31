@@ -78,4 +78,15 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         editViewController.delegate = self
         navigationController?.pushViewController(editViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            FirestoreManager.shared.removeItem(forSection: selectedSection, id: items[indexPath.row].id)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }

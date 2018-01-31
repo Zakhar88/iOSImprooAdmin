@@ -80,4 +80,12 @@ class FirestoreManager {
     func updateAboutText(with newText: String) {
         databaseReference.document("ukrainian/info").setData(["text" : newText])
     }
+    
+    func removeItem(forSection section: Section, id: String) {
+        databaseReference.collection("ukrainian/\(section.rawValue)/Collection").document(id).delete { error in
+            if let error = error {
+                print(error)
+            }
+        }
+    }
 }

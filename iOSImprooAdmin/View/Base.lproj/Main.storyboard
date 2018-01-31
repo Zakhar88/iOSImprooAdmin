@@ -351,7 +351,7 @@
                                     <constraint firstAttribute="height" constant="28" id="NFb-18-yIo"/>
                                 </constraints>
                                 <segments>
-                                    <segment title="Activities"/>
+                                    <segment title="Articles"/>
                                     <segment title="Books">
                                         <size key="contentOffset" width="1" height="0.0"/>
                                     </segment>
