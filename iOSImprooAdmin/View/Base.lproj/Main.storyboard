@@ -329,6 +329,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textFieldsEditingChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="7Yu-os-o66"/>
+                                </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fnO-fc-SBv">
                                 <rect key="frame" x="15" y="302" width="799" height="406"/>

@@ -167,7 +167,7 @@ class CreateEditViewController: UIViewController {
     
     func checkSaveButtonAccessibility() {
         if let initialItem = initialItem {
-            saveBarButton.isEnabled = titleField.text != initialItem.title || descriptionTextView.text != initialItem.description || selectedCategories != initialItem.categories || authorField.text != (initialItem.author ?? nil) || urlField.text != (initialItem.url?.absoluteString ?? "")
+            saveBarButton.isEnabled = titleField.text != initialItem.title || descriptionTextView.text != initialItem.description || selectedCategories != initialItem.categories || authorField.text != (initialItem.author ?? nil) || urlField.text != (initialItem.url?.absoluteString ?? "") || imageUrlField.text?.isEmpty == false
         } else {
             saveBarButton.isEnabled = titleField.text?.isEmpty == false  && !descriptionTextView.text.isEmpty && !selectedCategories.isEmpty
         }
