@@ -126,17 +126,14 @@ class CreateEditViewController: UIViewController {
     }
     
     @IBAction func cleanAllFields() {
-        titleField.text = ""
-        if selectedSection != .Courses {
-            authorField.text = ""
+        let alertController = UIAlertController(title: "Clean all fields?", message: nil, preferredStyle: .alert)
+        let cleanAction = UIAlertAction(title: "Clean", style: .destructive) { _ in
+            self.clean()
         }
-        urlField.text = ""
-        imageUrlField.text = ""
-        descriptionTextView.text = ""
-        idField.text = ""
-        saveBarButton.isEnabled = false
-        deselectaAllCategories()
-        selectedCategories = [String]()
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alertController.addAction(cleanAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func textFieldsEditingChanged(_ sender: UITextField) {
@@ -152,6 +149,20 @@ class CreateEditViewController: UIViewController {
     }
     
     //MARK: - Functions
+    
+    func clean() {
+        titleField.text = ""
+        if selectedSection != .Courses {
+            authorField.text = ""
+        }
+        urlField.text = ""
+        imageUrlField.text = ""
+        descriptionTextView.text = ""
+        idField.text = ""
+        saveBarButton.isEnabled = false
+        deselectaAllCategories()
+        selectedCategories = [String]()
+    }
     
     func deselectaAllCategories() {
         if let selectedRows = categoriesTableView.indexPathsForSelectedRows {
@@ -194,7 +205,7 @@ class CreateEditViewController: UIViewController {
             if let error = error {
                 self.showError(error)
             } else {
-                self.cleanAllFields()
+                self.clean()
             }
         }
     }
