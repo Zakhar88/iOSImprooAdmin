@@ -262,7 +262,7 @@
                                 <rect key="frame" x="829" y="79" width="180" height="674"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="Wo5-po-Enq"/>
+                                    <constraint firstAttribute="width" constant="180" id="Wo5-po-Enq"/>
                                 </constraints>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Og3-m6-hG9">
@@ -324,7 +324,7 @@
                                     <action selector="textFieldsEditingChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="DGh-5y-LNj"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Image URL?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hGn-gG-7fY">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Image URL?" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hGn-gG-7fY">
                                 <rect key="frame" x="15" y="257" width="799" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

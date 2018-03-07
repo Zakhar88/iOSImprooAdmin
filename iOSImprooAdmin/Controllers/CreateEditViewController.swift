@@ -37,6 +37,9 @@ class CreateEditViewController: UIViewController {
     var selectedSection: Section = .Articles {
         didSet {
             loadCategories()
+            if selectedSection == .Courses {
+                authorField.text = "Prometheus"
+            }
         }
     }
     
@@ -124,7 +127,9 @@ class CreateEditViewController: UIViewController {
     
     @IBAction func cleanAllFields() {
         titleField.text = ""
-        authorField.text = ""
+        if selectedSection != .Courses {
+            authorField.text = ""
+        }
         urlField.text = ""
         imageUrlField.text = ""
         descriptionTextView.text = ""
@@ -136,6 +141,14 @@ class CreateEditViewController: UIViewController {
     
     @IBAction func textFieldsEditingChanged(_ sender: UITextField) {
         checkSaveButtonAccessibility()
+        if selectedSection == .Courses && sender == titleField {
+            if sender.text?.first != "«" {
+                sender.text?.insert("«", at: (sender.text?.startIndex)!)
+            }
+            if sender.text?.last != "»" {
+                sender.text?.append("»")
+            }
+        }
     }
     
     //MARK: - Functions
