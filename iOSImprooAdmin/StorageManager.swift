@@ -72,7 +72,10 @@ class StorageManager {
     }
     
     static func uploadImage(byUrl urlString: String, withName imageName: String, forSection section: Section, completion: @escaping (Error?)->() ) {
-        guard let imageUrl = URL(string: urlString) else { return }
+        guard let imageUrl = URL(string: urlString) else {
+            let error = NSError(localizedDescription: "Failed to get Image URL.")
+            DispatchQueue.main.async { completion(error) }
+            return }
         do {
             let data = try Data(contentsOf: imageUrl)
             let storageReference = Storage.storage().reference().child(section.rawValue + "/" + imageName + ".jpeg")

@@ -85,8 +85,12 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            FirestoreManager.shared.removeItem(forSection: selectedSection, id: items[indexPath.row].id)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            FirestoreManager.shared.removeItem(forSection: selectedSection, id: items[indexPath.row].id, completion: { error in
+                if let error = error {
+                    self.showError(error)
+                }
+                tableView.reloadData()
+            })
         }
     }
 }

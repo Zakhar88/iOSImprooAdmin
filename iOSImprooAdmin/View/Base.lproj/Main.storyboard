@@ -410,8 +410,15 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Clean" id="Ogu-M4-lWl">
+                                <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="cleanAllFields" destination="BYZ-38-t0r" id="AFr-Yk-E8a"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" title="Delete" id="ceK-p8-D6U">
+                                <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="deleteTapped:" destination="BYZ-38-t0r" id="wAI-Mb-WNC"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -421,6 +428,7 @@
                         <outlet property="authorField" destination="6eZ-dp-QB1" id="4nu-Yd-jqP"/>
                         <outlet property="categoriesTableView" destination="0m5-dH-8Ig" id="2ta-MD-F4M"/>
                         <outlet property="cleanBarButton" destination="Ogu-M4-lWl" id="yDH-Mr-BDR"/>
+                        <outlet property="deleteBarButton" destination="ceK-p8-D6U" id="Qvv-rd-Tl6"/>
                         <outlet property="descriptionTextView" destination="fnO-fc-SBv" id="zTE-Lo-tao"/>
                         <outlet property="idField" destination="sDu-Qf-H8k" id="ag5-qT-glg"/>
                         <outlet property="imageUrlField" destination="hGn-gG-7fY" id="bkT-eQ-mac"/>

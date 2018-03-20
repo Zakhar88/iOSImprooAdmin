@@ -22,6 +22,7 @@ class CreateEditViewController: UIViewController {
     
     @IBOutlet weak var saveBarButton: UIBarButtonItem!
     @IBOutlet weak var cleanBarButton: UIBarButtonItem!
+    @IBOutlet weak var deleteBarButton: UIBarButtonItem!
     
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var authorField: UITextField!
@@ -148,6 +149,24 @@ class CreateEditViewController: UIViewController {
         }
     }
     
+    @IBAction func deleteTapped(_ sender: UIBarButtonItem?) {
+        let alertController = UIAlertController(title: "Delete item?", message: nil, preferredStyle: .alert)
+        let cleanAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            guard let id = self.idField.text else { return }
+            FirestoreManager.shared.removeItem(forSection: self.selectedSection, id: id) { error in
+                if let error = error {
+                    self.showError(error)
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alertController.addAction(cleanAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+        
+    }
+    
     //MARK: - Functions
     
     func clean() {
@@ -230,6 +249,7 @@ class CreateEditViewController: UIViewController {
         selectedCategories = item.categories
         
         selectedSection = section
+        deleteBarButton.isEnabled = true
     }
     
     private func preselectCategoriesForInitialItem() {
