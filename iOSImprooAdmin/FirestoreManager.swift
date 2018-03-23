@@ -22,16 +22,6 @@ class FirestoreManager {
         db.settings = settings
     }
     
-    func loadInfo(completion: @escaping (String?, Error?)->()) {
-        databaseReference.document("ukrainian/info").getDocument { (documentSnapshot, error) in
-            guard let infoText = documentSnapshot?.data()["text"] as? String else {
-                completion(nil, error)
-                return
-            }
-            completion(infoText, nil)
-        }
-    }
-    
     func loadCategories(forSection section: Section, completion: @escaping ([String]?, Error?)->()) {
         databaseReference.document("ukrainian/\(section.rawValue)").getDocument { (documentSnaphot, error) in
             guard documentSnaphot?.exists == true, let categories = documentSnaphot?.data()["Categories"] as? [String] else {
@@ -72,13 +62,13 @@ class FirestoreManager {
     }
     
     func getAboutText(completion: @escaping (String?)->()) {
-        databaseReference.document("ukrainian/info").getDocument { (snapshot, error) in
-            completion(snapshot?.data()["text"] as? String)
+        databaseReference.document("ukrainian/Settings").getDocument { (snapshot, error) in
+            completion(snapshot?.data()["infoText"] as? String)
         }
     }
     
     func updateAboutText(with newText: String) {
-        databaseReference.document("ukrainian/info").setData(["text" : newText])
+        databaseReference.document("ukrainian/Settings").setData(["infoText" : newText])
     }
     
     func removeItem(forSection section: Section, id: String, completion: @escaping (Error?)->()) {
